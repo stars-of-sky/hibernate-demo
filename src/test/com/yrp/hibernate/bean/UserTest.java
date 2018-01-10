@@ -62,4 +62,14 @@ public class UserTest {
     }
 
 
+    @Test
+    public void testGetUser() throws Exception {
+
+        Configuration config=new Configuration();
+        config.configure();
+        SessionFactory sessionFactory=config.buildSessionFactory(new ServiceRegistryBuilder()
+        .applySettings(config.getProperties()).buildServiceRegistry());
+        Session session=sessionFactory.openSession();
+
+    }
 }
