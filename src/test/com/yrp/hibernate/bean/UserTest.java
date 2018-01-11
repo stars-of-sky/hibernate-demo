@@ -35,7 +35,7 @@ public class UserTest {
     /**
      * Method: getId()
      */
-//    @Test
+    @Test
     public void testSaverUser() throws Exception {
         User user = new User();
         user.setName("夜星");
@@ -57,7 +57,7 @@ public class UserTest {
         Transaction transaction = session.beginTransaction();
 
         User user1 = new User("小强", '男', 28, 174.2, 66.6);
-
+        System.out.println(user);
         session.save(user);
         session.save(user1);
         transaction.commit();
@@ -65,7 +65,7 @@ public class UserTest {
     }
 
 
-    //    @Test
+        @Test
     public void testDeleteUser() throws Exception {
         Configuration config = new Configuration().configure();
         SessionFactory sessionFactory = config.buildSessionFactory(new ServiceRegistryBuilder()
@@ -74,7 +74,7 @@ public class UserTest {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 //        先获取到ID=2的user对象
-        User user2 = (User) session.get(User.class, 2);
+        User user2 = (User) session.get(User.class, 11);
 //        再删除
         session.delete(user2);
         session.getTransaction().commit();
@@ -83,7 +83,7 @@ public class UserTest {
     }
 
 
-//    @Test
+    @Test
     public void testUpdateUser() throws Exception {
         Configuration config = new Configuration().configure();
         SessionFactory sessionFactory = config.buildSessionFactory(new ServiceRegistryBuilder()

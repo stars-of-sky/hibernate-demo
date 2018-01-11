@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.yrp.hibernate.bean">
+    <class name="ClassInfo">
+        <id name="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" unique="true"/>
+        <set name="studentset">
+            <!--设置在多的一方表中外键，那一列对应的列名（学生对应的班级）-->
+            <key column="class_id"></key>
+            <!--class对应多的一方即Student-->
+            <one-to-many class="Student"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="movedatabase@localhost" uuid="09dbb0a4-c41f-4d2e-b9fa-c1cf7457b09f">
+    <data-source source="LOCAL" name="hibernate@localhost" uuid="ca41be49-2418-439a-a391-2a936d581b6a">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/movedatabase</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/hibernate</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

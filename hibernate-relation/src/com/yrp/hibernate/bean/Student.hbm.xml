@@ -2,16 +2,14 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-
 <hibernate-mapping package="com.yrp.hibernate.bean">
-    <class name="User">
+    <class name="Student">
         <id name="id">
             <generator class="identity"/>
         </id>
-        <property name="name" />
+        <property name="name"/>
         <property name="sex"/>
         <property name="age"/>
-        <property name="height"/>
-        <property name="weight"/>
+        <many-to-one name="classInfo" class="ClassInfo" column="class_id"/>
     </class>
 </hibernate-mapping>
