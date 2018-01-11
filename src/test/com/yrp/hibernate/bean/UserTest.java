@@ -38,9 +38,9 @@ public class UserTest {
     @Test
     public void testSaverUser() throws Exception {
         User user = new User();
-        user.setName("夜星");
+        user.setName("夜d星");
         user.setSex('男');
-        user.setAge(28);
+        user.setAge(25);
         user.setHeight(174.2);
         user.setWeight(66.6);
 //        创建配置文件
@@ -56,7 +56,7 @@ public class UserTest {
 //       改动数据库， 开启事务
         Transaction transaction = session.beginTransaction();
 
-        User user1 = new User("小强", '男', 28, 174.2, 66.6);
+        User user1 = new User("小红", '女', 24, 174.2, 66.6);
         System.out.println(user);
         session.save(user);
         session.save(user1);

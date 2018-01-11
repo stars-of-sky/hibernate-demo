@@ -30,7 +30,7 @@ public class Testmain {
 
     @Test
     public void AddStudent() throws Exception {
-        Student student=new Student("星星","男",24);
+        Student student=new Student("小红","女",23);
 //        session.beginTransaction();
         session.save(student);
         session.getTransaction().commit();
