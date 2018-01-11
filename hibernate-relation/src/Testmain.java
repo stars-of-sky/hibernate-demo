@@ -105,7 +105,7 @@ public class Testmain {
         student.setClassInfo(null);
         session.getTransaction().commit();
     }
-//    删除学生
+//   同上 删除学生
     @Test
     public void deleteStudent(){
         Student student= (Student) session.get(Student.class,3);

@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/hibernate-demo.iml" filepath="$PROJECT_DIR$/hibernate-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hibernate-ralation-n-n/hibernate-ralation-n-n.iml" filepath="$PROJECT_DIR$/hibernate-ralation-n-n/hibernate-ralation-n-n.iml" />
       <module fileurl="file://$PROJECT_DIR$/hibernate-relation/hibernate-relation.iml" filepath="$PROJECT_DIR$/hibernate-relation/hibernate-relation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hibernate-relation/hibernate-relation-n-n.iml" filepath="$PROJECT_DIR$/hibernate-relation/hibernate-relation-n-n.iml" />
     </modules>
   </component>
 </project>
