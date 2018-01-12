@@ -12,7 +12,7 @@
         <property name="age"/>
 
         <!--配置多对多时候，set一定要有一个中间table-->
-        <set name="courses" table="studnet_course_rel">
+        <set name="courses" table="student_course_rel" inverse="false">
             <!--当前student主键放到中间列表里-->
             <key column="student_id"></key>
             <!--关联另一方的course，及其主键-->

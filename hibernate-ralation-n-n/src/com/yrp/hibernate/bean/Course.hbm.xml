@@ -9,7 +9,7 @@
         </id>
         <property name="name" unique="true"/>
         <!--inverse="true"-->
-        <set name="students" table="studnet_course_rel" >
+        <set name="students" table="student_course_rel" inverse="true">
             <!--设置在多的一方表中外键，那一列对应的列名（学生对应的班级）-->
             <key column="course_id"></key>
             <!--class对应多的一方即Student-->

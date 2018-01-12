@@ -28,32 +28,33 @@ public class MainTest {
 
     @After
     public void tearDown() throws Exception {
+        session.getTransaction().commit();
         session.close();
     }
 
 //    注意course不能重复，会报错Duplicate entry 'java进阶' for key 'UK_topojlrn80k8ohbvly4jj7t6f'
     @Test
     public void addCourse(){
-        Course course=new Course();
-        course.setName("java进阶");
+//        Course course=new Course();
+//        course.setName("java进阶");
         Course course1=new Course();
         course1.setName("编程思想");
-        session.save(course);
-//        session.save(course1);
-        session.getTransaction().commit();
+//        session.save(course);
+        session.save(course1);
+
     }
 
     @Test
     public void addStudent(){
         Student student=new Student("安娜","女",23);
         session.save(student);
-        session.getTransaction().commit();
+
     }
     @Test
     public void choiceCourse(){
         Set<Course> courses=new HashSet<>();
 
-        Student student= (Student) session.get(Student.class,1);
+        Student student= (Student) session.get(Student.class,4);
         student.setCourses(courses);
 
         Course course= (Course) session.get(Course.class,1);
@@ -62,19 +63,19 @@ public class MainTest {
 //        session.save(courses);
 //        学生选课
         student.getCourses().add(course);
-        student.getCourses().add((Course) session.get(Course.class,2));
+        student.getCourses().add((Course) session.get(Course.class,3));
 
 //        课程加入学生
         course.setStudents(new HashSet<Student>());
-        course.getStudents().add((Student) session.get(Student.class,2));
+//        course.getStudents().add((Student) session.get(Student.class,2));
 //？？？？？？？？？？？？？？？？？？？？先保存，才能添加？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
         Student student1=new Student("熊大","男",20);
         session.save(student1);
         course.getStudents().add(student1);
 //????????????????????????????????????????????????????????????
-        course.getStudents().add((Student) session.get(Student.class,3));
+//        course.getStudents().add((Student) session.get(Student.class,3));
 
-        session.getTransaction().commit();
+
 
 //        Student s1=new Student();
 //        s1.setName("lisi");
@@ -99,7 +100,21 @@ public class MainTest {
     @Test
     public void deleteStudent(){
         Student student= (Student) session.get(Student.class,1);
+        System.out.println(student.getName());
+//        这会删除学生1，并且会删除关联关系
         session.delete(student);
+    }
+
+    @Test
+    public void deleteCourse(){
+       Course course= (Course) session.get(Course.class,3);
+        System.out.println(course.getName());
+        Student student= (Student) session.get(Student.class,3);
+//        course.getStudents().remove(course);
+        System.out.println("KKKKKKK");
+        student.getCourses().remove(course);
+//        不能像一以下方式删除自己，因为有外键关联，报错
+//        session.delete(course);
     }
 
     @Test
@@ -108,6 +123,12 @@ public class MainTest {
         Set<Course> courses=student.getCourses();
         for (Course cours : courses) {
             System.out.println(cours.getName());
+        }
+
+        Course course= (Course) session.get(Course.class,3);
+        Set<Student> students=course.getStudents();
+        for (Student student1 : students) {
+            System.out.println(student1.getName());
         }
     }
 }
