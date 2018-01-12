@@ -14,7 +14,16 @@ public class Student {
     private String sex;
     private Integer age;
     private Set<Course> courses = new HashSet<>();
+    //用于一对一的学号
+    private StudentNumber studentNumber;
 
+    public StudentNumber getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(StudentNumber studentNumber) {
+        this.studentNumber = studentNumber;
+    }
 
     public Student() {
     }
