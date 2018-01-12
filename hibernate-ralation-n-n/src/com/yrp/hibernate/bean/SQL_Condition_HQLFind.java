@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistryBuilder;
@@ -14,9 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.persistence.Id;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Create By Administrator.
@@ -43,7 +41,7 @@ public class SQL_Condition_HQLFind {
         session.close();
     }
 
-    /**
+    /*********************************************************
      * 查询
      * SQL、关系查询、HQL
      */
@@ -54,21 +52,11 @@ public class SQL_Condition_HQLFind {
      * 不然栈溢出！！
      * java.lang.StackOverflowError
      */
-    @Test
-    public void getAllCourse() {
-        Student student = (Student) session.get(Student.class, 1);
-        Set<Course> courses = student.getCourses();
-        for (Course cours : courses) {
-            System.out.println(cours.getName());
-        }
 
-        Course course = (Course) session.get(Course.class, 3);
-        Set<Student> students = course.getStudents();
-        for (Student student1 : students) {
-            System.out.println(student1.getName());
-        }
-    }
-
+    /************************
+     * SQL查询：
+     * ************
+     */
     @Test
     public void findAllStudent() {
         String sql = "select * from student";
@@ -86,9 +74,7 @@ public class SQL_Condition_HQLFind {
         SQLQuery query = session.createSQLQuery(sql);
         //自动封装对象.addEntity(Course.class)
         List<Course> courses = query.addEntity(Course.class).list();
-        for (Course cours : courses) {
-            System.out.println(cours);
-        }
+        System.out.println(courses);
     }
 
     //模糊，传参数，查询
@@ -97,9 +83,7 @@ public class SQL_Condition_HQLFind {
         String sql = "select *from student where name like ?";
         SQLQuery query = session.createSQLQuery(sql);
         List<Student> students = query.addEntity(Student.class).setString(0, "小%").list();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+        System.out.println(students);
     }
 
     //单个返回值(一条数据)，按id，name。。。。
@@ -122,7 +106,7 @@ public class SQL_Condition_HQLFind {
     }
 
     /**
-     * ********
+     * ************************
      * 条件查询
      * ********
      */
@@ -160,9 +144,7 @@ public class SQL_Condition_HQLFind {
                 Restrictions.and(Restrictions.eq("sex", "男")
                         , Restrictions.like("name", "%星")))
                 .list();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+        System.out.println(students);
 
 //        List<Student> s1=criteria.add(Restrictions.like("name","小%"))
 //                .add(Restrictions.gt("age",20))
@@ -183,15 +165,12 @@ public class SQL_Condition_HQLFind {
         //在20到25之间
         List<Student> s1 = criteria.add(Restrictions.like("name", "小%"))
                 .add(Restrictions.between("age", 20, 25)).list();
-        for (Student student : s1) {
-            System.out.println(student);
-        }
+        System.out.println(s1);
+
         //大于25小于等于23
         Criteria criteria1 = session.createCriteria(Student.class);
         List<Student> s2 = criteria1.add(Restrictions.or(Restrictions.gt("age", 25), Restrictions.le("age", 23))).list();
-        for (Student student : s2) {
-            System.out.println(student);
-        }
+        System.out.println(s2);
     }
 
     //按属性查询
@@ -202,9 +181,7 @@ public class SQL_Condition_HQLFind {
         String propertyName = "name";
         String propertyVlue = "安娜";
         List<Student> students = criteria.add(Restrictions.like(propertyName, propertyVlue)).list();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+        System.out.println(students);
     }
 
     //按课程（对象）查询
@@ -213,9 +190,9 @@ public class SQL_Condition_HQLFind {
         Criteria criteria = session.createCriteria(Student.class);
         //courses为student课程的属性
         List<Student> students = criteria.createCriteria("courses").add(Restrictions.eq("name", "编程思想")).list();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+
+            System.out.println(students);
+
     }
 
     //排序查询: asc , desc
@@ -224,9 +201,7 @@ public class SQL_Condition_HQLFind {
     public void findStudentByCourseByasc() {
         Criteria criteria = session.createCriteria(Student.class);
         List<Student> students = criteria.addOrder(Order.asc("age")).createCriteria("courses").add(Restrictions.eq("name", "编程思想")).list();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+            System.out.println(students);
     }
 
     /**
@@ -238,29 +213,135 @@ public class SQL_Condition_HQLFind {
     public void findStudentByPage() {
         Criteria criteria = session.createCriteria(Student.class);
         List<Student> students = criteria.setFirstResult(1).setMaxResults(3).list();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+
+            System.out.println(students);
 
         //按课程分页查询：
         Criteria criteria1 = session.createCriteria(Student.class);
         List<Student> students1 = criteria.addOrder(Order.asc("age")).createCriteria("courses")
                 .add(Restrictions.eq("name", "编程思想"))
                 .setFirstResult(0).setMaxResults(2).list();
-        for (Student student : students1) {
-            System.out.println(student);
-        }
+
+            System.out.println(students1);
     }
 
     /**
      * 聚合函数
      */
 
-    //男生人数：
+    //男生人数：count
     @Test
     public void findCountStudent() {
         Criteria criteria = session.createCriteria(Student.class);
         Long count = (Long) criteria.setProjection(Projections.rowCount()).add(Restrictions.eq("sex", "男")).uniqueResult();
-        System.out.println(count);
+        System.out.println("男生总数：" + count);
+    }
+
+    @Test
+    public void findStudentAvgAge() {
+        Criteria criteria = session.createCriteria(Student.class);
+//        Double age= (Double) criteria.setProjection(Projections.avg("age")).uniqueResult();
+
+//        （都可以）或者这种写法：
+        criteria.setProjection(Projections.avg("age"));
+        Double age = (Double) criteria.uniqueResult();
+
+        System.out.println("平均年龄：" + age);
+    }
+
+    /**************************************************************
+     *
+     * HQL查询：
+     * ******************
+     * ( select 别名 ) from 类名 where 属性 = 值
+     * 括号里面的部分是可以省略的。
+     */
+    //获取所有学生
+    @Test
+    public void findAllStudent2() {
+//        String hql="select s from Student s";
+//        简化省略
+        String hql = "from Student ";
+        List<Student> students = session.createQuery(hql).list();
+
+            System.out.println(students);
+
+    }
+
+    /**
+     * 条件查询：
+     */
+    //id
+    @Test
+    public void findStudentById2() {
+        String hql = "from Student where id=?";
+        Student student = (Student) session.createQuery(hql).setInteger(0, 9).uniqueResult();
+        System.out.println(student);
+    }
+
+    //通过对象类型的属性去查
+//    @Test
+//    public void findStudentByCourse2() {
+//        String hql = "from Student where classInfo.name = ?";
+//        List<Student> students = session.createQuery(hql).setString(0, "java进阶").list();
+//        for (Student student : students) {
+//            System.out.println(student);
+//        }
+//    }
+
+    //通过集合类型的属性：
+    @Test
+    public void findStudentByCourse3() {         //HQL中查询参数的占位符":name"
+        String hql = "from Student s inner join s.courses c where c.name = ?";
+        List<Student> students = session.createQuery(hql).setString(0, "java进阶").list();
+        for (Student student : students) {
+            System.out.println(student.getName());
+        }
+        Object o = session.createQuery(hql).setString(0, "java进阶").list();
+        System.out.println(o);
+    }
+
+    @Test
+    public void findCountStudentByCourse() {         //HQL中查询参数的占位符":name"
+        String hql = "select avg(s.age) from Student s inner join s.courses c where c.name=:name";
+        Long age = (Long) session.createQuery(hql).setString("name", "编程思想").uniqueResult();
+
+        System.out.println(age);
+    }
+
+    //返回一部分字段的对象
+    //!!!首先要有这些字段的构造函数
+    @Test
+    public void findStudent() {
+        String hql = "select new Student(s.name,s.age) from Student s inner join s.courses c where c.name=:name order by s.age desc";
+        List<Student> students = session.createQuery(hql).setString("name", "javaweb进阶").list();
+        System.out.println("fucking!!!"+students);
+        for (Student student : students) {
+            System.out.println(student);
+        }
+
+        String hql1 = "select new Student(s.name,s.age) from Student s order by s.age desc";
+        List<Student> students1 = session.createQuery(hql1).list();
+
+        System.out.println(students1);
+//        for (Student student : students1) {
+//            System.out.println(student);
+//        }
+    }
+
+    //查询返回一个Map
+    @Test
+
+
+    public void findStudentMap(){
+        String hql="select new map(s.id as id,s.name as name,s.sex as sex,s.age as age) from Student s order by s.age desc ";
+        List<Map> list=session.createQuery(hql).list();
+        for (Map map : list) {
+            for (Object o : map.keySet()) {
+                System.out.print(o+" : "+map.get(o)+"\t");
+            }
+            System.out.println();
+        }
+        System.out.println("size:"+list.size());
     }
 }

@@ -35,13 +35,13 @@ public class MainTest {
     //    注意course不能重复，会报错Duplicate entry 'java进阶' for key 'UK_topojlrn80k8ohbvly4jj7t6f'
     @Test
     public void addCourse() {
-//        Course course=new Course();
-//        course.setName("javaweb进阶");
-//        session.save(course);
+        Course course=new Course();
+        course.setName("javaweb进阶");
+        session.save(course);
 
-        Course course1 = new Course();
-        course1.setName("编程思想");
-        session.save(course1);
+//        Course course1 = new Course();
+//        course1.setName("编程思想");
+//        session.save(course1);
 
     }
 
@@ -116,10 +116,26 @@ public class MainTest {
         session.delete(course);
     }
 
+
+    @Test
+    public void getAllCourse() {
+        Student student = (Student) session.get(Student.class, 1);
+        Set<Course> courses = student.getCourses();
+        for (Course cours : courses) {
+            System.out.println(cours.getName());
+        }
+
+        Course course = (Course) session.get(Course.class, 3);
+        Set<Student> students = course.getStudents();
+        for (Student student1 : students) {
+            System.out.println(student1.getName());
+        }
+    }
+
     /**
      * 查询
      * SQL、关系查询、HQL
-     * 见SQLFind
+     * 见SQL Find
      */
 
     /**
