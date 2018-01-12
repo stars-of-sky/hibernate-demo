@@ -42,7 +42,7 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", students=" + students +
-                '}';
+//                ", students=" + students +
+                '}'+"\n";
     }
 }
