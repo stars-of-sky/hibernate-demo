@@ -113,8 +113,8 @@ public class MainTest {
 //        course.getStudents().remove(course);
         System.out.println("KKKKKKK");
         student.getCourses().remove(course);
-//        不能像一以下方式删除自己，因为有外键关联，报错
-//        session.delete(course);
+//       inverse="true"时！！ 不能像以下方式删除自己，因为有外键关联，报错
+        session.delete(course);
     }
 
     @Test
