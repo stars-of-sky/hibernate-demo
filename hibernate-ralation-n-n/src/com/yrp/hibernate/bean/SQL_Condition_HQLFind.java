@@ -275,7 +275,7 @@ public class SQL_Condition_HQLFind {
     @Test
     public void findStudentById2() {
         String hql = "from Student where id=?";
-        Student student = (Student) session.createQuery(hql).setInteger(0, 9).uniqueResult();
+        Student student = (Student) session.createQuery(hql).setInteger(0, 7).uniqueResult();
         System.out.println(student);
     }
 
@@ -292,19 +292,21 @@ public class SQL_Condition_HQLFind {
     //通过集合类型的属性：
     @Test
     public void findStudentByCourse3() {         //HQL中查询参数的占位符":name"
-        String hql = "from Student s inner join s.courses c where c.name = ?";
-        List<Student> students = session.createQuery(hql).setString(0, "java进阶").list();
-        for (Student student : students) {
-            System.out.println(student.getName());
+        String hql = "from Student s inner join s.courses c where c.name = :name";
+        List students = session.createQuery(hql).setString("name", "java进阶").list();
+//        System.out.println(students.size());
+        for (Object student : students) {
+            System.out.println("OOOOOOOOOOOOO"+(Student)student);
         }
-        Object o = session.createQuery(hql).setString(0, "java进阶").list();
+
+        Object o = session.createQuery(hql).setString("name", "java进阶").list();
         System.out.println(o);
     }
 
     @Test
     public void findCountStudentByCourse() {         //HQL中查询参数的占位符":name"
         String hql = "select avg(s.age) from Student s inner join s.courses c where c.name=:name";
-        Long age = (Long) session.createQuery(hql).setString("name", "编程思想").uniqueResult();
+        Double age = (Double) session.createQuery(hql).setString("name", "编程思想").uniqueResult();
 
         System.out.println(age);
     }
@@ -316,9 +318,9 @@ public class SQL_Condition_HQLFind {
         String hql = "select new Student(s.name,s.age) from Student s inner join s.courses c where c.name=:name order by s.age desc";
         List<Student> students = session.createQuery(hql).setString("name", "javaweb进阶").list();
         System.out.println("fucking!!!"+students);
-        for (Student student : students) {
-            System.out.println(student);
-        }
+//        for (Student student : students) {
+//            System.out.println("HHHH"+student);
+//        }
 
         String hql1 = "select new Student(s.name,s.age) from Student s order by s.age desc";
         List<Student> students1 = session.createQuery(hql1).list();
